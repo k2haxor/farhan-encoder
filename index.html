@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Farhan Encoder</title>
+</head>
+<body>
+    <h1>Farhan Encoder</h1>
+    <textarea type="text" style="width:50%;height:10em" id="inputString" placeholder="Enter a string to encode/decode"></textarea>
+    <button onclick="encode()">Encode</button>
+    <button onclick="decode()">Decode</button>
+    <div id="result"></div>
+
+    <script>
+        // Farhan Encoding Map
+        const farhanEncodingMap = {
+            " ":"0x000001",
+            "!":"0x000002",
+            "\"":"0x000003",
+            "#":"0x000004",
+            "$":"0x000005",
+            "%":"0x000006",
+            "&":"0x000007",
+            "'":"0x000008",
+            "(":"0x000009",
+            ")":"0x00000A",
+            "*":"0x00000B",
+            "+":"0x00000C",
+            ",":"0x00000D",
+            "-":"0x00000E",
+            ".":"0x00000F",
+            "/":"0x000010",
+            "0":"0x000011",
+            "1":"0x000012",
+            "2":"0x000013",
+            "3":"0x000014",
+            "4":"0x000015",
+            "5":"0x000016",
+            "6":"0x000017",
+            "7":"0x000018",
+            "8":"0x000019",
+            "9":"0x00001A",
+            ":":"0x00001B",
+            ";":"0x00001C",
+            "<":"0x00001D",
+            ":":"0x00001E",
+            ">":"0x00001F",
+            "?":"0x000020",
+            "@":"0x000021",
+            "A":"0x000022",
+            "B":"0x000023",
+            "C":"0x000024",
+            "D":"0x000025",
+            "E":"0x000026",
+            "F":"0x000027",
+            "G":"0x000028",
+            "H":"0x000029",
+            "I":"0x00002A",
+            "J":"0x00002B",
+            "K":"0x00002C",
+            "L":"0x00002D",
+            "M":"0x00002E",
+            "N":"0x00002F",
+            "O":"0x000030",
+            "P":"0x000031",
+            "Q":"0x000032",
+            "R":"0x000033",
+            "S":"0x000034",
+            "T":"0x000035",
+            "U":"0x000036",
+            "V":"0x000037",
+            "W":"0x000038",
+            "X":"0x000039",
+            "Y":"0x00003A",
+            "Z":"0x00003B",
+            "[":"0x00003C",
+            "\\":"0x00003D",
+            "]":"0x00003E",
+            "^":"0x00003F",
+            "_":"0x000040",
+            "`":"0x000041",
+            "a":"0x000042",
+            "b":"0x000043",
+            "c":"0x000044",
+            "d":"0x000045",
+            "e":"0x000046",
+            "f":"0x000047",
+            "g":"0x000048",
+            "h":"0x000049",
+            "i":"0x00004A",
+            "j":"0x00004B",
+            "k":"0x00004C",
+            "l":"0x00004D",
+            "m":"0x00004E",
+            "n":"0x00004F",
+            "o":"0x000050",
+            "p":"0x000051",
+            "q":"0x000052",
+            "r":"0x000053",
+            "s":"0x000054",
+            "t":"0x000055",
+            "u":"0x000056",
+            "v":"0x000057",
+            "w":"0x000058",
+            "x":"0x000059",
+            "y":"0x00005A",
+            "z":"0x00005B",
+            "{":"0x00005C",
+            "|":"0x00005D",
+            "}":"0x00005E",
+            "~":"0x00005F",
+            "\n":"0x00005G"
+        };
+
+        // Create reverse mapping for decoding
+        const farhanDecodingMap = Object.fromEntries(
+            Object.entries(farhanEncodingMap).map(([key, value]) => [value, key])
+        );
+
+        // Encoding function
+        function farhanEncode(text) {
+            // Convert text to lowercase
+            text = text.toLowerCase();
+            
+            // Convert each character to its hex value
+            const encoded = [];
+            for(let char of text) {
+                if(farhanEncodingMap[char]) {
+                    encoded.push(farhanEncodingMap[char]);
+                }
+            }
+            return encoded;
+            //return encodeToBase64(JSON.stringify(encoded));
+        }
+
+        // Decoding function
+        function farhanDecode(encodedArray) {
+            //encodedArray = decodeFromBase64(encodedArray);
+            encodedArray = JSON.parse(encodedArray);
+            let decoded = '';
+            for(let hex of encodedArray) {
+                //console.log(hex);
+                if(farhanDecodingMap[hex]) {
+                    decoded += farhanDecodingMap[hex];
+                }
+            }
+            return decoded;
+        }
+
+
+        // Example with Base64
+        function encodeToBase64(encodedArray) {
+            return btoa(JSON.stringify(encodedArray));
+        }
+
+        function decodeFromBase64(base64String) {
+            return JSON.parse(atob(base64String));
+        }
+
+
+
+        function encode() {
+            const input = document.getElementById('inputString').value;
+            const encodedResult = farhanEncode(input);
+            
+            let resultHTML = '<h3>Encoded values:</h3>';
+            resultHTML += `<textarea style="width:50%;height:10em">${JSON.stringify(encodedResult)}</textarea>`;
+
+
+            document.getElementById('result').innerHTML = resultHTML;
+        }
+
+        function decode() {
+            const input = document.getElementById('inputString').value;
+            const encodedResult = farhanDecode(input);
+            
+            let resultHTML = '<h3>Decoded values:</h3>';
+            resultHTML += `<textarea style="width:50%;height:10em">${encodedResult}</textarea>`;
+
+            document.getElementById('result').innerHTML = resultHTML;
+        }
+    </script>
+</body>
+</html>
