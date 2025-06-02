@@ -1,26 +1,26 @@
 
 <script type="text/javascript">
-  	const originalFetch = window.fetch;
-  	window.fetch = async function (...args) {
-	    console.log('Fetch called with:', args);
-
-	    // Optionally modify the request
-	    // args[0] = new URL(args[0]).toString(); // for example
-
-	    const response = await originalFetch.apply(this, args);
-
-	    // Clone and read response if needed
-	    const cloned = response.clone();
-	    cloned.text().then(body => console.log('Fetch response body:', body));
-
-	    return response;
-	};
   function sleep (time) {
 	  return new Promise((resolve) => setTimeout(resolve, time));
 	}
-	sleep(6000).then(() => {
+	sleep(1000).then(() => {
 	    ifr = document.getElementsByTagName("iframe");
-      console.log(ifr[0].contentWindow.fetch);
+	    const ifroriginalFetch = ifr[0].contentWindow.fetch;
+		ifr[0].contentWindow.fetch = async function (...args) {
+		    console.log('Fetch called with:', args);
+	
+		    // Optionally modify the request
+		    // args[0] = new URL(args[0]).toString(); // for example
+	
+		    const response = await ifroriginalFetch.apply(this, args);
+	
+		    // Clone and read response if needed
+		    const cloned = response.clone();
+		    cloned.text().then(body => console.log('Fetch response body:', body));
+	
+		    return response;
+		};
+           
 	});
   </script>
 <iframe id="ifram">
