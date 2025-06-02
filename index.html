@@ -1,1 +1,26 @@
+
+<script type="text/javascript">
+  	const originalFetch = window.fetch;
+  	window.fetch = async function (...args) {
+	    console.log('Fetch called with:', args);
+
+	    // Optionally modify the request
+	    // args[0] = new URL(args[0]).toString(); // for example
+
+	    const response = await originalFetch.apply(this, args);
+
+	    // Clone and read response if needed
+	    const cloned = response.clone();
+	    cloned.text().then(body => console.log('Fetch response body:', body));
+
+	    return response;
+	};
+  function sleep (time) {
+	  return new Promise((resolve) => setTimeout(resolve, time));
+	}
+	sleep(6000).then(() => {
+	    ifr = document.getElementsByTagName("iframe");
+      console.log(ifr[0].contentWindow.fetch);
+	});
+  </script>
 <iframe src="https://hackerone.com/b1bd7e47-b718-4ca4-8064-dcd88733fbf7/embedded_submissions/new?locale=en" frameborder="0" title="Submit Vulnerability Report" style="border: none; width: 100%; height: 1000px;" />
