@@ -1,0 +1,16 @@
+<html>
+      <body>
+        <h2>Iframe Content</h2>
+        <pre id="output">Fetching file...</pre>
+        <script>
+          fetch('https://ifconfig.me') // <-- Replace with your file path
+            .then(res => res.text())
+            .then(text => {
+              document.getElementById('output').textContent = text;
+            })
+            .catch(err => {
+              document.getElementById('output').textContent = 'Fetch error: ' + err;
+            });
+        </script>
+      </body>
+      </html>
